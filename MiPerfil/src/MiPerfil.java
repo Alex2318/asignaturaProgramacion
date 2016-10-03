@@ -18,7 +18,6 @@ public class MiPerfil extends JFrame {
 	private JTextField cajaNombre;
 	private JTextField cajaApellidos;
 	private JTextField CajaEdad;
-	private JTable table;
 	private JTextField cajaEmail;
 
 	/**
