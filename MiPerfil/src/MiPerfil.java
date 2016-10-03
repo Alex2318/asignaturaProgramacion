@@ -1,3 +1,4 @@
+	//Paquete importado con warnings que no modifico
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
