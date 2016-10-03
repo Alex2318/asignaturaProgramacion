@@ -14,15 +14,16 @@ import javax.swing.JTable;
 	//Nombre de la clase principal
 public class MiPerfil extends JFrame {
 
-	//Atributos con acceso private
+	//DEFINICIÓN CONTENEDOR
 	private JPanel contentPane;
-	private JTextField cajaNombre;
+	//DEFINICIÓN DISTINTAS CAJAS
+	private JTextField cajaNombre; 
 	private JTextField cajaApellidos;
 	private JTextField CajaEdad;
 	private JTextField cajaEmail;
 
 	/**
-	 * Launch the application.
+	 * LANZAR LA VENTANA.
 	 */
 	//Función main, puerta de entrada para ejecutar nuestro código
 	public static void main(String[] args) {
@@ -41,17 +42,21 @@ public class MiPerfil extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * CONFIGURAR LA VENTANA.
 	 */
-	//Método
 	public MiPerfil() {
 		setTitle("Mi Perfil");
 		
-		//Configuración ventana
+		String nombre="Alejandro";
+		String apellidos="Moncholí Berlanga";
+		int edad=31;
+		String email="moncholi.alejandro@gmail.com";
+				
+		//CONFIGURACIÓN DE LA VENTANA
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		
-		//Configuración contenedor
+		//CONFIGURACIÓN DEL CONTENEDOR
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -64,10 +69,10 @@ public class MiPerfil extends JFrame {
 		
 		//Caja para poner el nombre
 		cajaNombre = new JTextField();
-		cajaNombre.setText("Alejandro");
 		cajaNombre.setBounds(10, 36, 184, 20);
 		contentPane.add(cajaNombre);
 		cajaNombre.setColumns(10);
+		cajaNombre.setText(nombre);
 		
 		//Etiqueta apellidos
 		JLabel etiquetaApellidos = new JLabel("Apellidos");
@@ -76,10 +81,10 @@ public class MiPerfil extends JFrame {
 		
 		//Caja para poner apellidos
 		cajaApellidos = new JTextField();
-		cajaApellidos.setText("Monchol\u00ED Berlanga");
 		cajaApellidos.setBounds(10, 87, 184, 20);
 		contentPane.add(cajaApellidos);
 		cajaApellidos.setColumns(10);
+		cajaApellidos.setText(apellidos);
 		
 		//Etiqueta edad
 		JLabel etiquetaEdad = new JLabel("Edad");
@@ -88,10 +93,11 @@ public class MiPerfil extends JFrame {
 		
 		//Caja para poner edad
 		CajaEdad = new JTextField();
-		CajaEdad.setText("31");
 		CajaEdad.setBounds(10, 153, 184, 20);
 		contentPane.add(CajaEdad);
 		CajaEdad.setColumns(10);
+		CajaEdad.setText(String.valueOf(edad));
+		
 		
 		//Etiqueta email
 		JLabel etiquetaEmail = new JLabel("Email");
@@ -100,9 +106,9 @@ public class MiPerfil extends JFrame {
 		
 		//Caja para poner email
 		cajaEmail = new JTextField();
-		cajaEmail.setText("almobe@floridauniversitaria.es");
 		cajaEmail.setBounds(10, 230, 184, 20);
 		contentPane.add(cajaEmail);
 		cajaEmail.setColumns(10);
+		cajaEmail.setText(email);
 	}
 }
