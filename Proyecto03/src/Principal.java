@@ -6,8 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Juego.Jugador;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+
 
 public class Principal extends JFrame {
 
@@ -48,6 +47,7 @@ public class Principal extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contentPane.setLayout(new BorderLayout(0, 0));
+		
 	}
 }
