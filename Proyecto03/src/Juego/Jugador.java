@@ -55,6 +55,7 @@ public class Jugador {
 	public void setId(int id) {
 		this.id = id;
 	}
+	//Método para pasar a un string los setters introducidos
 	public String toString(){
 		return this.nombre+" "+this.apellidos+" de "+this.edad+" años.";
 	}

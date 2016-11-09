@@ -17,13 +17,15 @@ public class Principal extends JFrame {
 	 */
 	public static void main(String[] args) {
 		
-		//Generamos un nuevo jugador
+		//Generamos player1 de la clase Jugador
 		Jugador player1=new Jugador();
+		//Inicalizamos cada uno de los atributos de la clase jugador
 		player1.setNombre("Álex");
 		player1.setApellidos("Moncholí Berlanga");
 		player1.setEdad(31);
 		player1.setId(001);
-		System.out.println(player1.toString());//Hace una llamada al método toString definido en la clase Jugador.
+		//Hace una llamada al método toString definido en la clase Jugador.
+		System.out.println(player1.toString());
 		
 		
 		EventQueue.invokeLater(new Runnable() {
@@ -38,9 +40,7 @@ public class Principal extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
+	//Generamos una ventana principal.
 	public Principal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 450);
