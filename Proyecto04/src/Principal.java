@@ -126,16 +126,17 @@ public class Principal extends JFrame {
 					player1.setEdad(Integer.parseInt(JTextEdad.getText()));//...introducimos la edad como int al player1 
 					else//De la otra forma...
 						player1.setEdad(999);//...la edad se rellena como 999 y eso nos valdrá para aclarar futuras comprobaciones.
-				
-				//Dependiendo de los campos de texto vamos a mostrar un mensaje de confirmación o error por el JTextCampo.
-				if (player1.getEdad()==999)
-					JTextCampo.setText("Edad erronea. Vuelva a rellenarla y pulse Empieza el juego");
-				else if (player1.enBlanco(player1.getNombre()))
-					JTextCampo.setText("Falta rellenar el nombre. Rellenelo y pulse Empieza el juego");
-				else if (player1.enBlanco(player1.getApellidos()))
-					JTextCampo.setText("Falta rellenar los apellidos. Rellenelos y pulse Empieza el juego");
-				else
+				//Sentencia if para comprobar que no hay espacios en blanco en los JTextField. Con sus respectivas salidas de texto.
+				if(JTextNombre.getText().length()==0){
+					JTextCampo.setText("No ha introducido el nombre");
+				}else if(JTextApellidos.getText().length()==0){
+					JTextCampo.setText("No ha introducido el apellido");
+				}else if(player1.getEdad()==999){
+					JTextCampo.setText("Error u omisión al introducir la edad.");
+				}else{	
 					JTextCampo.setText("Creado nuevo jugador: "+player1.getNombre()+" "+player1.getApellidos()+" de "+player1.getEdad()+" años.");
+				}
+			
 			}
 		});
 		Boton.setFont(new Font("Modern No. 20", Font.PLAIN, 15));

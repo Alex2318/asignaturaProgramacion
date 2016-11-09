@@ -55,7 +55,7 @@ public class Jugador {
 	}
 	
 
-	//Métodos de comprobación
+
 	//Método para comprobar que lo que se ingresa en Edad es un número
 	public boolean isNumeric(String cadena){//Si hay una cadena de caracteres...
 		try{
@@ -65,17 +65,9 @@ public class Jugador {
 			return false;//...te devuelve false.
 		}
 	}
-	
-	//Método para comprobar que no se esté dejando un espacio en blanco.
-	public boolean enBlanco(String cad)
-	{
-	for(int x=0; x<cad.length(); x++)//Si hay más de cero caractéres...
-	if(cad.charAt(x) !=' ')//...diferentes de los que se hacen con la barra espaciadora...
-		return false;//...devuelve un false...
-							//...en caso contrario...
-		return true;//...devuelve un true.
+
 	
 	}
 	
 	
-}
+
