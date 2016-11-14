@@ -26,6 +26,7 @@ public class Principal extends JFrame {
 	private JTextField JTextNombre;
 	private JTextField JTextCampo;
 	private Jugador player1=new Jugador();
+	private JButton BotonEditar;
 	/**
 	 * Launch the application.
 	 */
@@ -108,7 +109,8 @@ public class Principal extends JFrame {
 
 		//Campo de texto confirmación.
 		JTextCampo = new JTextField();
-		JTextCampo.setBounds(10, 303, 414, 97);
+		JTextCampo.setEditable(false);
+		JTextCampo.setBounds(10, 279, 414, 51);
 		contentPane.add(JTextCampo);
 		JTextCampo.setColumns(10);
 
@@ -140,8 +142,19 @@ public class Principal extends JFrame {
 			}
 		});
 		Boton.setFont(new Font("Modern No. 20", Font.PLAIN, 15));
-		Boton.setBounds(7, 230, 417, 38);
+		Boton.setBounds(10, 219, 417, 38);
 		contentPane.add(Boton);
+		
+		//Botón paa editar JTextCampo con el fin de que añadan información adicional
+		BotonEditar = new JButton("A\u00F1adir informaci\u00F3n al campo anterior");
+		BotonEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JTextCampo.setEditable(true);
+			}
+		});
+		BotonEditar.setFont(new Font("Modern No. 20", Font.PLAIN, 15));
+		BotonEditar.setBounds(7, 352, 417, 38);
+		contentPane.add(BotonEditar);
 		
 		
 		
