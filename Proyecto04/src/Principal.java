@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Window.Type;
 import java.awt.Color;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 
 
 public class Principal extends JFrame {
@@ -45,6 +46,7 @@ public class Principal extends JFrame {
 
 	
 	public Principal() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\USUARIO.LAPTOP-QGQP1H9N\\Desktop\\icono-dado1.jpg"));
 		setForeground(SystemColor.activeCaption);
 		setFont(new Font("Modern No. 20", Font.PLAIN, 18));
 		setTitle("Math Dice");
