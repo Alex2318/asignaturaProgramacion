@@ -11,6 +11,8 @@ import javax.swing.border.EmptyBorder;
 import Juego.Jugador;
 
 import javax.swing.JLabel;
+import java.awt.Toolkit;
+import java.awt.Font;
 
 public class Juego extends JFrame {
 
@@ -25,6 +27,8 @@ public class Juego extends JFrame {
 	 * Create the frame.
 	 */
 	public Juego() {
+		setTitle("Math Dice-Juego");
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\USUARIO.LAPTOP-QGQP1H9N\\OneDrive - Florida Centre de Formaci\u00F3 Coop.V\\DAM\\Programaci\u00F3n\\icono-dado1.jpg"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -35,7 +39,8 @@ public class Juego extends JFrame {
 
 		
 		EtiquetaBienvenida = new JLabel("New Label");
-		EtiquetaBienvenida.setBounds(10, 11, 414, 14);
+		EtiquetaBienvenida.setFont(new Font("Modern No. 20", Font.PLAIN, 15));
+		EtiquetaBienvenida.setBounds(10, 11, 414, 29);
 		contentPane.add(EtiquetaBienvenida);
 	}
 	

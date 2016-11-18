@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Window.Type;
 import java.awt.Color;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 
 
 public class Login extends JFrame {
@@ -29,13 +30,14 @@ public class Login extends JFrame {
 	private Login referencia;//Creamos referencia sobre Login.
 	private Juego vJuego;//Generamos variable sobre ventana Juego
 	private Jugador player1=new Jugador();//Se crea objeto y después importamos la clase jugador.
-
+	private JButton Boton;
 	
 	
 	public Login(Juego vJ) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\USUARIO.LAPTOP-QGQP1H9N\\OneDrive - Florida Centre de Formaci\u00F3 Coop.V\\DAM\\Programaci\u00F3n\\icono-dado1.jpg"));
 		setForeground(SystemColor.activeCaption);
 		setFont(new Font("Modern No. 20", Font.PLAIN, 18));
-		setTitle("Math Dice");
+		setTitle("Math Dice-Login");
 		
 		referencia=this;//Metemos aquí la referencia para que lo que siga lo haga sobre Login.
 		vJuego=vJ;
@@ -105,7 +107,7 @@ public class Login extends JFrame {
 		JTextCampo.setColumns(10);
 
 		//Botón confirmación.
-		JButton Boton = new JButton("Empieza el juego");
+		Boton = new JButton("Empieza el juego");
 		//En un Listener metemos todas las acciones
 		Boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

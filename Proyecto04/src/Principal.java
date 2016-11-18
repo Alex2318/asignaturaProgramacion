@@ -28,6 +28,7 @@ public class Principal extends JFrame {
 	private JTextField JTextCampo;
 	private Jugador player1=new Jugador();
 	private JButton BotonEditar;
+	private JButton Boton;
 	/**
 	 * Launch the application.
 	 */
@@ -117,7 +118,7 @@ public class Principal extends JFrame {
 		JTextCampo.setColumns(10);
 
 		//Botón confirmación.
-		JButton Boton = new JButton("Empieza el juego");
+		Boton = new JButton("Empieza el juego");
 		//En un Listener metemos todas las acciones
 		Boton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
