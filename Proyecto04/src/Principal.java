@@ -129,9 +129,9 @@ public class Principal extends JFrame {
 					else//De la otra forma...
 						player1.setEdad(999);//...la edad se rellena como 999 y eso nos valdrá para aclarar futuras comprobaciones.
 				//Sentencia if para comprobar que no hay espacios en blanco en los JTextField. Con sus respectivas salidas de texto.
-				if(JTextNombre.getText().length()==0){
+				if(player1.enBlanco(player1.getNombre())){//Cambio método de comprobación de getText.lenght==0 al método del ejemplo al incluir éste también la opción de una cadena con espacios en blanco
 					JTextCampo.setText("No ha introducido el nombre. Introdúzcalo y pulse Empieza el juego.");
-				}else if(JTextApellidos.getText().length()==0){
+				}else if(player1.enBlanco(player1.getApellidos())){
 					JTextCampo.setText("No ha introducido los apellidos. Introdúzcalos y pulse Empieza el juego.");
 				}else if(player1.getEdad()==999){
 					JTextCampo.setText("Error u omisión al introducir la edad. Introdúzcala correctamente y pulse Empieza el juego");
