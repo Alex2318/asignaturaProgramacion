@@ -136,7 +136,7 @@ public class Principal extends JFrame {
 					JTextCampo.setText("No ha introducido el nombre. Introdúzcalo y pulse Empieza el juego.");
 				}else if(player1.enBlanco(player1.getApellidos())){
 					JTextCampo.setText("No ha introducido los apellidos. Introdúzcalos y pulse Empieza el juego.");
-				}else if(player1.getEdad()==999){
+				}else if(player1.getEdad()==999){//Si la edad es 999, es porque no se a introducido un entero.
 					JTextCampo.setText("Error u omisión al introducir la edad. Introdúzcala correctamente y pulse Empieza el juego");
 				}else{	
 					JTextCampo.setText("Creado nuevo jugador: "+player1.getNombre()+" "+player1.getApellidos()+" de "+player1.getEdad()+" años.");
