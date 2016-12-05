@@ -115,26 +115,29 @@ public class Login extends JFrame {
 				player1.setNombre(JTextNombre.getText());//Almacenar en jugador el nombre
 				player1.setApellidos(JTextApellidos.getText());//Almacenamos también apellidos para cerciorarnos de que trabaja bien con la clase Jugador
 				vJuego.setJugador(player1);//Hacia el setter que hemos creado en laa clase Juego
-				vJuego.setVisible(true);//Hacemos visible la ventana Juego.
-				referencia.dispose();//Cerramos ventana Login a través de la referencia.
+
 				//Guardar apellidos.
 				player1.setApellidos(JTextApellidos.getText());
 
 				//Guardar edad.
-				if (player1.isNumeric(JTextEdad.getText())==true)//Si el método creado en la clase jugador nos devuelve un true...
+				if (player1.isNumeric(JTextEdad.getText())==true){//Si el método creado en la clase jugador nos devuelve un true...
 					player1.setEdad(Integer.parseInt(JTextEdad.getText()));//...introducimos la edad como int al player1 
-					else//De la otra forma...
+				}else{//De la otra forma...
 						player1.setEdad(999);//...la edad se rellena como 999 y eso nos valdrá para aclarar futuras comprobaciones.
-				
+				}
 				//Dependiendo de los campos de texto vamos a mostrar un mensaje de confirmación o error por el JTextCampo.
-				if (player1.getEdad()==999)
+				
+				if (player1.getEdad()==999){
 					JTextCampo.setText("Edad erronea. Vuelva a rellenarla y pulse Empieza el juego");
-				else if (player1.enBlanco(player1.getNombre()))
+				}else if (player1.enBlanco(player1.getNombre())){
 					JTextCampo.setText("Falta rellenar el nombre. Rellenelo y pulse Empieza el juego");
-				else if (player1.enBlanco(player1.getApellidos()))
+				}else if (player1.enBlanco(player1.getApellidos())){
 					JTextCampo.setText("Falta rellenar los apellidos. Rellenelos y pulse Empieza el juego");
-				else
+				}else{	
 					JTextCampo.setText("Creado nuevo jugador: "+player1.getNombre()+" "+player1.getApellidos()+" de "+player1.getEdad()+" años.");
+					vJuego.setVisible(true);
+					referencia.dispose();
+				}
 			}
 				
 			

@@ -47,7 +47,7 @@ public class Principal extends JFrame {
 
 	
 	public Principal() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\USUARIO.LAPTOP-QGQP1H9N\\Desktop\\icono-dado1.jpg"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/Imagen/dado.png")));
 		setForeground(SystemColor.activeCaption);
 		setFont(new Font("Modern No. 20", Font.PLAIN, 18));
 		setTitle("Math Dice");
