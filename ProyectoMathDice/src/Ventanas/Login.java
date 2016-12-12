@@ -125,6 +125,8 @@ public class Login extends JFrame {
 					JTextCampo.setText("Error u omisión al introducir la edad. Introdúzcala y pulse Enter");
 				}else{	
 					JTextCampo.setText("Creado nuevo jugador: "+player1.getNombre()+" "+player1.getApellidos()+" de "+player1.getEdad()+" años.");
+					vJuego.setVisible(true);
+					referencia.dispose();
 				}
 			}
 		});
