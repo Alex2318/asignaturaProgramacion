@@ -56,6 +56,7 @@ public class Jugador {
 	
 
 	//Métodos de comprobación
+	
 	//Método para comprobar que lo que se ingresa en Edad es un número
 	public boolean isNumeric(String cadena){//Si hay una cadena de caracteres...
 		try{

@@ -1,7 +1,8 @@
 package Principal;
 
 import Ventanas.Instrucciones;
-import Ventanas.Juego;
+import Ventanas.JuegoExperto;
+import Ventanas.JuegoPrincipiante;
 import Ventanas.Login;
 
 public class Principal {
@@ -11,15 +12,16 @@ public class Principal {
 	
 
 		//Ventanas a utilizar
-		Instrucciones vIns=new Instrucciones();
-		Juego vJuego=new Juego();
+
+	    JuegoPrincipiante vJuego=new JuegoPrincipiante();
 		
+		JuegoExperto vExperto=new JuegoExperto();
 
 		
-		Login vLogin=new Login(vJuego);
+		Login vLogin=new Login(vJuego, vExperto);
 		vLogin.setVisible(true);
 		
-		
+
 		
 
 

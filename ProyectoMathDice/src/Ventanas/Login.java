@@ -19,7 +19,18 @@ import java.awt.Color;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
 
-
+/*
+ * *Ventana donde a través de la clase Login de tipo JFrame presentamos la ventana que aparecerá cuando ejecutemos
+ *  la aplicación. 
+ * *En ella se presentan distintas etiquetas, cajas de texto para que el usuario introduzca sus datos y de esta forma
+ *  crear un nuevo jugador. Este jugador tendrá las características definidas en la clase Jugador, en el paquete Juego.
+ * *A la hora de introducir los datos y pasar a la siguente ventan hemos introducido dos metodologías diferentes.
+ * *La primera es la de hacerlo a través del botón, al darle se ejecutarán las acciones para determinar si los datos
+ *  están bien introducidos y de ser así se creará el jugador y se dará paso a la siguiente ventana Juego, cerrando la
+ *  presente.
+ * *La otra opción que también hemos elegido para hacer más rápido el login es la de implementar todas las acciones
+ *  anteriores en un listener al apretar intro en la caja donde se introduce la edad (la última de arriba abajo).
+ */
 public class Login extends JFrame {
 
 	private JPanel contentPane;
@@ -28,28 +39,31 @@ public class Login extends JFrame {
 	private JTextField JTextNombre;
 	private JTextField JTextCampo;
 	private Login referencia;//Creamos referencia sobre Login.
-	private Juego vJuego;
+	private JuegoPrincipiante vJuego;
+	private JuegoExperto vExperto;
 	private Jugador player1=new Jugador();
 
 	
-	
-	public Login(Juego vJ) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/Imagenes/dado.png")));
-		setForeground(SystemColor.activeCaption);
-		setFont(new Font("Modern No. 20", Font.PLAIN, 18));
-		setTitle("Math Dice");
+	//Constructor de la ventana Login
+	public Login(JuegoPrincipiante vJ, JuegoExperto vE) {
 		
-		referencia=this;//Metemos aquí la referencia para que lo que siga lo haga sobre Login.
+		//Metemos aquí la referencia para que lo que siga lo haga sobre Login.
+		referencia=this;
 		vJuego=vJ;
+		vExperto=vE;
 		
 		//Inicalizamos player1.
-
 		player1.setNombre("");
 		player1.setApellidos("");
 		player1.setEdad(0);
 		player1.setId(0);
-
-		//Propiedades de la ventana y del contentPane
+		
+		//Propiedades de la ventana y del contentPane	
+		setForeground(SystemColor.activeCaption);
+		setFont(new Font("Modern No. 20", Font.PLAIN, 18));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(JuegoPrincipiante.class.getResource("/Imagenes/dado.png")));
+		setTitle("Math Dice");
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 450);
 		contentPane = new JPanel();
@@ -106,7 +120,6 @@ public class Login extends JFrame {
 				vJuego.setJugador(player1);
 				//Guardar apellidos.
 				player1.setApellidos(JTextApellidos.getText());
-
 				//Guardar edad.
 				if (player1.isNumeric(JTextEdad.getText())==true)//Si el método creado en la clase jugador nos devuelve un true...
 					player1.setEdad(Integer.parseInt(JTextEdad.getText()));//...introducimos la edad como int al player1 
@@ -138,16 +151,15 @@ public class Login extends JFrame {
 		JTextCampo.setColumns(10);
 
 		//Botón confirmación.
-		JButton Boton = new JButton("Empieza el juego");
+		JButton BotonPrincipiante = new JButton("Principiante");
 		//En un Listener metemos todas las acciones
-		Boton.addActionListener(new ActionListener() {
+		BotonPrincipiante.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Guardar nombre.
 				player1.setNombre(JTextNombre.getText());
 				vJuego.setJugador(player1);
 				//Guardar apellidos.
 				player1.setApellidos(JTextApellidos.getText());
-
 				//Guardar edad.
 				if (player1.isNumeric(JTextEdad.getText())==true)//Si el método creado en la clase jugador nos devuelve un true...
 					player1.setEdad(Integer.parseInt(JTextEdad.getText()));//...introducimos la edad como int al player1 
@@ -169,12 +181,45 @@ public class Login extends JFrame {
 			}
 				
 		});
-		Boton.setFont(new Font("Modern No. 20", Font.PLAIN, 15));
-		Boton.setBounds(7, 230, 417, 38);
-		contentPane.add(Boton);
+		BotonPrincipiante.setFont(new Font("Modern No. 20", Font.PLAIN, 15));
+		BotonPrincipiante.setBounds(7, 230, 169, 38);
+		contentPane.add(BotonPrincipiante);
+		
+		JButton BotonExperto = new JButton("Experto");
+		BotonExperto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Guardar nombre.
+				player1.setNombre(JTextNombre.getText());
+				vJuego.setJugador(player1);
+				//Guardar apellidos.
+				player1.setApellidos(JTextApellidos.getText());
+				//Guardar edad.
+				if (player1.isNumeric(JTextEdad.getText())==true)//Si el método creado en la clase jugador nos devuelve un true...
+					player1.setEdad(Integer.parseInt(JTextEdad.getText()));//...introducimos la edad como int al player1 
+					else//De la otra forma...
+						player1.setEdad(999);//...la edad se rellena como 999 y eso nos valdrá para aclarar futuras comprobaciones.
+				
+				//Dependiendo de los campos de texto vamos a mostrar un mensaje de confirmación o error por el JTextCampo.
+				if (player1.getEdad()==999){
+					JTextCampo.setText("Edad erronea. Vuelva a rellenarla y pulse Empieza el juego");
+				}else if (player1.enBlanco(player1.getNombre())){
+					JTextCampo.setText("Falta rellenar el nombre. Rellenelo y pulse Empieza el juego");
+				}else if (player1.enBlanco(player1.getApellidos())){
+					JTextCampo.setText("Falta rellenar los apellidos. Rellenelos y pulse Empieza el juego");
+				}else{	
+					JTextCampo.setText("Creado nuevo jugador: "+player1.getNombre()+" "+player1.getApellidos()+" de "+player1.getEdad()+" años.");
+					vExperto.setVisible(true);
+					//vExperto.setVisible(true);
+					referencia.dispose();
+				}
+			}
+			
+		});
+		BotonExperto.setFont(new Font("Modern No. 20", Font.PLAIN, 15));
+		BotonExperto.setBounds(255, 228, 169, 45);
+		contentPane.add(BotonExperto);
 		
 		
 		
 	}
-
 }
