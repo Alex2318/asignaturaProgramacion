@@ -39,7 +39,7 @@ public class JuegoExperto extends JFrame {
 	//Player1 de la clase jugador
 	private Jugador player1;
 	//Etiqueta bienvenida creada en el proyecto 05
-	private JLabel LabelBienvenida;
+	private JLabel LabelBienvenidaExp;
 	//Etiquetas para meter imágenes de dados
 	private JLabel LabelDado_12_1,LabelDado_12_2;
 	private JLabel LabelDado_3_1,LabelDado_3_2,LabelDado_3_3;
@@ -56,8 +56,12 @@ public class JuegoExperto extends JFrame {
 	private JButton ButtonMathdice;
 	//Botón para resetear el juego
 	private JButton btnReset;
-
-	private Instrucciones vIns;
+	//Etiqueta interrogante
+	private JLabel LabelInterrogante;
+	//Ventana de instrucciones que abriremos con un listener en LabelInterrogante
+	private InstruccionesExperto vInsE;
+	//Etiqueta objetivo
+	private JLabel LabelObjetivo;
 
 	//Diferentes imágenes
     private ImageIcon dado3_1 = null;
@@ -69,6 +73,7 @@ public class JuegoExperto extends JFrame {
     private ImageIcon dado12 = null;
     private ImageIcon dado12_2= null;
     private ImageIcon dado_gris=new ImageIcon (getClass().getResource("/Imagenes/dadogris.png"));
+    
     //Arrays de los distintos dados para posteriorment sacar el valor 
     private int [] valor_3caras=new int [3];
     private int [] valor_6caras=new int [3];
@@ -76,8 +81,6 @@ public class JuegoExperto extends JFrame {
     //Valor del dado de doce caras, producido por la función Math.random
     private int valor12_1 = (int) (Math.round(Math.random() *(1-12)+12));
     private int valor12_2 = (int) (Math.round(Math.random() *(1-12)+12));
-
-
     //(Math.random() *(mínimo-máximo)+máximo)
     
     //Variables booleanas para activar/desactivar listeners posteriormente
@@ -88,30 +91,22 @@ public class JuegoExperto extends JFrame {
 	private boolean mouseListenerIsActive5=true;
 	private boolean mouseListenerIsActive6=true;
 	
-	
+	//Variable objetivo que la incializamos a cero para posteriormente pedirle que sea el resultado del producto de los valores de los dados de doce caras
 	private int objetivo=0;
-	private int objetivo2=0;
-
 
 	//Variable integer para hacer de semáforo entre el dado y el símbolo
 	private int tocaDado=0;
 	
-	//Semáforo partentesis
+	//Semáforo paréntesis
 	private boolean parentesisCerrado=true;
 	
 	//Variable String para acumular la operación que vamos haciendo
 	private String operacion="";
 	
-	//Variable int para controlar el número de símbolos que introducimos (no pueden haber más de 4)
+	//Variable int para controlar el número de símbolos que introducimos (no puede haber más de 5)
 	private int nSimbolos=0;
 	
-	private int resultado;
-	private JLabel LabelInterrogante;
-	private JLabel LabelObjetivo;
-
-    
 	
-
     //Constructor ventana
 	public JuegoExperto() {
 		
@@ -121,7 +116,6 @@ public class JuegoExperto extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 720);
 	
-		
 	
 		//JPanel
 		contentPane = new JPanel();
@@ -130,11 +124,11 @@ public class JuegoExperto extends JFrame {
 		contentPane.setLayout(null);
 		
 		//Etiqueta de bienvenida 
-		LabelBienvenida = new JLabel("New Label");
-		LabelBienvenida.setFont(new Font("Modern No. 20", Font.PLAIN, 20));
-		LabelBienvenida.setHorizontalAlignment(SwingConstants.CENTER);
-		LabelBienvenida.setBounds(10, 11, 964, 32);
-		contentPane.add(LabelBienvenida);
+		LabelBienvenidaExp = new JLabel("New Label");
+		LabelBienvenidaExp.setFont(new Font("Modern No. 20", Font.PLAIN, 20));
+		LabelBienvenidaExp.setHorizontalAlignment(SwingConstants.CENTER);
+		LabelBienvenidaExp.setBounds(10, 11, 964, 32);
+		contentPane.add(LabelBienvenidaExp);
 		
 		//Etiqueta de primer dado de 12 caras
 		LabelDado_12_1 = new JLabel("");
@@ -166,7 +160,6 @@ public class JuegoExperto extends JFrame {
 						LabelDado_3_1.setIcon(dado_gris);
 						tocaDado=1;
 						mouseListenerIsActive = false;
-						System.out.println(tocaDado);
 						}
 	            }
 	        });
@@ -184,7 +177,6 @@ public class JuegoExperto extends JFrame {
 						LabelDado_3_2.setIcon(dado_gris);
 					    tocaDado=1;
 					    mouseListenerIsActive2 = false;
-						System.out.println(tocaDado);
 						}
 					}
 			}
@@ -203,7 +195,6 @@ public class JuegoExperto extends JFrame {
 						LabelDado_3_3.setIcon(dado_gris);
 						 tocaDado=1;
 						 mouseListenerIsActive3 = false;
-							System.out.println(tocaDado);
 						}
 					}
 				}
@@ -222,7 +213,6 @@ public class JuegoExperto extends JFrame {
 						LabelDado_6_1.setIcon(dado_gris);
 						 tocaDado=1;
 						 mouseListenerIsActive4 = false;
-							System.out.println(tocaDado);
 					}
 					}
 				}
@@ -241,7 +231,6 @@ public class JuegoExperto extends JFrame {
 						LabelDado_6_2.setIcon(dado_gris);
 						tocaDado=1;
 						mouseListenerIsActive5 = false;
-						System.out.println(tocaDado);
 						}
 					}
 				}
@@ -260,13 +249,102 @@ public class JuegoExperto extends JFrame {
 						LabelDado_6_3.setIcon(dado_gris);
 						tocaDado=1;
 						mouseListenerIsActive6 = false;
-						System.out.println(tocaDado);
 						}
 					}
 				}
 		);
 		
+		//Botón para sumar en la operación
+		botonSuma = new JButton("+");
+		botonSuma.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (tocaDado==1&&nSimbolos<5){
+					JTextOperacion.setText(operacion=operacion+String.valueOf(" + "));
+					tocaDado=0;
+					nSimbolos++;//Suma uno a la variable nSimbolos para contabilizarlos y que no se llegue a más de 4
+					}
+			}
+		});
+		botonSuma.setFont(new Font("Modern No. 20", Font.BOLD, 30));
+		botonSuma.setBounds(531, 55, 80, 80);
+		contentPane.add(botonSuma);
+
+		//Botón para restar en la operación
+		botonResta = new JButton("-");
+		botonResta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (tocaDado==1&&nSimbolos<5){
+					JTextOperacion.setText(operacion=operacion+String.valueOf(" - "));
+					tocaDado=0;
+					nSimbolos++;//Suma uno a la variable nSimbolos para contabilizarlos y que no se llegue a más de 4
+					}
+			}
+		});
+		botonResta.setFont(new Font("Modern No. 20", Font.BOLD, 30));
+		botonResta.setBounds(707, 54, 80, 80);
+		contentPane.add(botonResta);
 		
+		//Botón para multiplicar en la operación
+		botonProducto = new JButton("*");
+		botonProducto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (tocaDado==1&&nSimbolos<5){
+					JTextOperacion.setText(operacion=operacion+String.valueOf(" * "));
+					tocaDado=0;
+					nSimbolos++;//Suma uno a la variable nSimbolos para contabilizarlos y que no se llegue a más de 4
+					}
+			}
+		});
+		botonProducto.setFont(new Font("Modern No. 20", Font.BOLD, 30));
+		botonProducto.setBounds(865, 54, 80, 80);
+		contentPane.add(botonProducto);
+		
+		//Botón para dividir en la operación
+		botonDivision = new JButton("/");
+		botonDivision.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (tocaDado==1&&nSimbolos<5){
+					JTextOperacion.setText(operacion=operacion+String.valueOf(" / "));
+					tocaDado=0;
+					nSimbolos++;//Suma uno a la variable nSimbolos para contabilizarlos y que no se llegue a más de 4
+					}
+			}
+		});
+		botonDivision.setFont(new Font("Modern No. 20", Font.BOLD, 30));
+		botonDivision.setBounds(531, 158, 80, 80);
+		contentPane.add(botonDivision);
+		
+		//Botón para abrir un paréntesis en la operación
+		botonParentesis = new JButton("(");
+		botonParentesis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					if (parentesisCerrado==true && tocaDado==0){
+					JTextOperacion.setText(operacion=operacion+String.valueOf(" ( "));
+					parentesisCerrado=false;
+					tocaDado=0;
+					}
+					}
+		});
+		botonParentesis.setFont(new Font("Modern No. 20", Font.BOLD, 30));
+		botonParentesis.setBounds(707, 157, 80, 80);
+		contentPane.add(botonParentesis);
+
+		//Botón para cerrar un paréntesis en la operación
+		botonParentesisCierre = new JButton(")");
+		botonParentesisCierre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					if (tocaDado==1 && parentesisCerrado==false ){
+					JTextOperacion.setText(operacion=operacion+String.valueOf(" ) "));
+					parentesisCerrado=true;
+					tocaDado=1;
+					}
+					}
+		});
+		botonParentesisCierre.setFont(new Font("Modern No. 20", Font.BOLD, 30));
+		botonParentesisCierre.setBounds(865, 157, 80, 80);
+		contentPane.add(botonParentesisCierre);
+		
+
 		//Etiqueta puntuación total
 		LabelPuntuacion = new JLabel("");
 		LabelPuntuacion.setHorizontalAlignment(SwingConstants.CENTER);
@@ -274,7 +352,7 @@ public class JuegoExperto extends JFrame {
 		LabelPuntuacion.setBounds(535, 530, 410, 40);
 		contentPane.add(LabelPuntuacion);
 		
-		//JTextField dónde recogeremos tanto los número como los símbolos de las operaciones
+		//JTextField dónde recogeremos tanto los números como los símbolos de las operaciones
 		JTextOperacion = new JTextField();
 		JTextOperacion.setFont(new Font("Modern No. 20", Font.PLAIN, 30));
 		JTextOperacion.setBackground(new Color(255, 255, 153));
@@ -331,8 +409,8 @@ public class JuegoExperto extends JFrame {
 				//Reseteamos todos los valores que intervienen en la ventana como al inicio
 				valor12_1 = (int) (Math.round(Math.random() *(1-12)+12));//Vuelve a generar un valor para el dado12
 				valor12_2 = (int) (Math.round(Math.random() *(1-12)+12));//Vuelve a generar un valor para el dado12_2
-				IniciarArrays();//Se generan valores para los dados de tres y seis caras
-				SacarImagen();//Se sacan las respectivas imágenes en las etiquetas
+				AsignarValor();//Se generan valores para los dados de tres y seis caras
+				AsignarImagen();//Se sacan las respectivas imágenes en las etiquetas
 				sacarObjetivo();
 				nSimbolos=0;//Se resetean semáforos
 				tocaDado=0;
@@ -362,146 +440,50 @@ public class JuegoExperto extends JFrame {
 		contentPane.add(LabelResultado);
 		
 		//Instancia de la clase Instrucciones para crear ventana de instrucciones
-		vIns=new Instrucciones ();
+		vInsE=new InstruccionesExperto ();
 		
 		//Etiqueta acceso a ventana instrucciones
 		LabelInterrogante = new JLabel("New label");
 		LabelInterrogante.setBounds(0, 0, 58, 57);
 		contentPane.add(LabelInterrogante);
 		LabelInterrogante.setIcon(new ImageIcon(JuegoPrincipiante.class.getResource("/Imagenes/interrogante.png")));
-		
-		botonSuma = new JButton("+");
-		botonSuma.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (tocaDado==1&&nSimbolos<5){
-					JTextOperacion.setText(operacion=operacion+String.valueOf(" + "));
-					tocaDado=0;
-					System.out.println(tocaDado);
-					nSimbolos++;//Suma uno a la variable nSimbolos para contabilizarlos y que no se llegue a más de 4
-					}
-			}
-		});
-		botonSuma.setFont(new Font("Modern No. 20", Font.BOLD, 30));
-		botonSuma.setBounds(531, 55, 80, 80);
-		contentPane.add(botonSuma);
-		
-		botonResta = new JButton("-");
-		botonResta.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (tocaDado==1&&nSimbolos<5){
-					JTextOperacion.setText(operacion=operacion+String.valueOf(" - "));
-					tocaDado=0;
-					System.out.println(tocaDado);
-					nSimbolos++;//Suma uno a la variable nSimbolos para contabilizarlos y que no se llegue a más de 4
-					}
-			}
-		});
-		botonResta.setFont(new Font("Modern No. 20", Font.BOLD, 30));
-		botonResta.setBounds(707, 54, 80, 80);
-		contentPane.add(botonResta);
-		
-		botonProducto = new JButton("*");
-		botonProducto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (tocaDado==1&&nSimbolos<5){
-					JTextOperacion.setText(operacion=operacion+String.valueOf(" * "));
-					tocaDado=0;
-					System.out.println(tocaDado);
-					nSimbolos++;//Suma uno a la variable nSimbolos para contabilizarlos y que no se llegue a más de 4
-					}
-			}
-		});
-		botonProducto.setFont(new Font("Modern No. 20", Font.BOLD, 30));
-		botonProducto.setBounds(865, 54, 80, 80);
-		contentPane.add(botonProducto);
-		
-		botonDivision = new JButton("/");
-		botonDivision.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (tocaDado==1&&nSimbolos<5){
-					JTextOperacion.setText(operacion=operacion+String.valueOf(" / "));
-					tocaDado=0;
-					System.out.println(tocaDado);
-					nSimbolos++;//Suma uno a la variable nSimbolos para contabilizarlos y que no se llegue a más de 4
-					}
-			}
-		});
-		botonDivision.setFont(new Font("Modern No. 20", Font.BOLD, 30));
-		botonDivision.setBounds(531, 158, 80, 80);
-		contentPane.add(botonDivision);
-		
-		botonParentesis = new JButton("(");
-		botonParentesis.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-					if (parentesisCerrado==true && tocaDado==0){
-					JTextOperacion.setText(operacion=operacion+String.valueOf(" ( "));
-
-					parentesisCerrado=false;
-					tocaDado=0;
-					System.out.println(tocaDado);
-					}
-					}
-		});
-		botonParentesis.setFont(new Font("Modern No. 20", Font.BOLD, 30));
-		botonParentesis.setBounds(707, 157, 80, 80);
-		contentPane.add(botonParentesis);
-		
-		botonParentesisCierre = new JButton(")");
-		botonParentesisCierre.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-					if (tocaDado==1 && parentesisCerrado==false ){
-					JTextOperacion.setText(operacion=operacion+String.valueOf(" ) "));
-
-					parentesisCerrado=true;
-					tocaDado=1;
-					System.out.println(tocaDado);
-					}
-					}
-		});
-		botonParentesisCierre.setFont(new Font("Modern No. 20", Font.BOLD, 30));
-		botonParentesisCierre.setBounds(865, 157, 80, 80);
-		contentPane.add(botonParentesisCierre);
-		
-
-
+		//Listener para acceder a la ventana de instrucciones del modo experto (vInsE)
 		LabelInterrogante.addMouseListener(
 				new MouseAdapter(){
 					@Override
 				public void mousePressed(MouseEvent arg0){
-						vIns.setVisible(true);
+						vInsE.setVisible(true);
 					}
 				}
 		);
 		//Ejecución del método InicarArrays
-		IniciarArrays();
+		AsignarValor();
 		
 		//Ejecución del método SacarImagen
-		SacarImagen();
+		AsignarImagen();
 		
+		//Ejecución del método sacarObjetivo
 		sacarObjetivo();
-	/*
-		trucarImpar();
-	*/
-		System.out.println(tocaDado);
+
+		
 	}
-
-
 
 	//Setter de puntos y nombres del objeto player1 de la clase Jugador
 	public void setJugador (Jugador player1) {
-		this.player1=player1;
-		LabelBienvenida.setText("Hola "+player1.getNombre()+" bienvenid@ a Math Dice.");
-		
+			this.player1=player1;
+			LabelBienvenidaExp.setText("Hola "+player1.getNombre()+" bienvenid@ a Math Dice.");
+				
 	}
-	
-	//Objetivo
+
+
+	//Método para multiplicar los valores de los dos dados de doce caras y asignar objetivo
 	public void sacarObjetivo(){
 		objetivo=valor12_1*valor12_2;
 		LabelObjetivo.setText("Objetivo = "+objetivo);
 		
 	}
 	//Metodo a través de arrays sacar valor diferentes dados
-	public void IniciarArrays(){
+	public void AsignarValor(){
 		
 		for(int i=0;i<valor_3caras.length;i++){
 			valor_3caras[i]= (int) (Math.round(Math.random() *(1-3)+3));
@@ -510,24 +492,9 @@ public class JuegoExperto extends JFrame {
 			valor_6caras[i]= (int) (Math.round(Math.random() *(1-6)+6));
 		}
 	}
-	/*
-	public void trucarImpar(){
-		if (valor12%2 != 0 && valor_3caras[0]%2==0 && valor_3caras[1]%2==0 && valor_3caras[2]%2==0 && 
-				valor_6caras[0]%2==0 ){
 
-					    if(valor_6caras[1]%2 ==0)
-					    {
-					          if(valor_6caras[1]==6) {
-					        	  valor_6caras[1] = valor_6caras[1] - 1;  
-					          }else{
-					        	  valor_6caras[1] = valor_6caras[1] +1;
-					          }
-					    }
-		}
-	}
-	*/
-	//Inicio dedl método para asignar una imagen a cada valor
-	public void SacarImagen(){
+	//Inicio del método para asignar una imagen a cada valor
+	public void AsignarImagen(){
 		
 		//Primer dado de tres caras
         if (valor_3caras[0] == 1) {

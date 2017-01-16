@@ -11,13 +11,12 @@ public class Principal {
 		
 	
 
-		//Ventanas a utilizar
+		//Ventanas a utilizar (hacemos visible vLogin para que sea la primera ventana que sale al ejecutar la aplicación)
 
 	    JuegoPrincipiante vJuego=new JuegoPrincipiante();
 		
 		JuegoExperto vExperto=new JuegoExperto();
 
-		
 		Login vLogin=new Login(vJuego, vExperto);
 		vLogin.setVisible(true);
 		

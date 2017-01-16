@@ -146,9 +146,44 @@ public class Login extends JFrame {
 
 		//Campo de texto confirmación.
 		JTextCampo = new JTextField();
+		JTextCampo.setText("Introduce los datos y elige nivel");
 		JTextCampo.setBounds(10, 303, 414, 97);
 		contentPane.add(JTextCampo);
 		JTextCampo.setColumns(10);
+		
+		JButton BotonExperto = new JButton("Experto");
+		BotonExperto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Guardar nombre.
+				player1.setNombre(JTextNombre.getText());
+				vExperto.setJugador(player1);
+				//Guardar apellidos.
+				player1.setApellidos(JTextApellidos.getText());
+				//Guardar edad.
+				if (player1.isNumeric(JTextEdad.getText())==true)//Si el método creado en la clase jugador nos devuelve un true...
+					player1.setEdad(Integer.parseInt(JTextEdad.getText()));//...introducimos la edad como int al player1 
+					else//De la otra forma...
+						player1.setEdad(999);//...la edad se rellena como 999 y eso nos valdrá para aclarar futuras comprobaciones.
+				
+				//Dependiendo de los campos de texto vamos a mostrar un mensaje de confirmación o error por el JTextCampo.
+				if (player1.getEdad()==999){
+					JTextCampo.setText("Edad erronea. Vuelva a rellenarla y pulse Empieza el juego");
+				}else if (player1.enBlanco(player1.getNombre())){
+					JTextCampo.setText("Falta rellenar el nombre. Rellenelo y pulse Empieza el juego");
+				}else if (player1.enBlanco(player1.getApellidos())){
+					JTextCampo.setText("Falta rellenar los apellidos. Rellenelos y pulse Empieza el juego");
+				}else{	
+					JTextCampo.setText("Creado nuevo jugador: "+player1.getNombre()+" "+player1.getApellidos()+" de "+player1.getEdad()+" años.");
+					vExperto.setVisible(true);
+					referencia.dispose();
+				}
+			}
+			
+		});
+		BotonExperto.setFont(new Font("Modern No. 20", Font.PLAIN, 15));
+		BotonExperto.setBounds(255, 228, 169, 45);
+		contentPane.add(BotonExperto);
+		
 
 		//Botón confirmación.
 		JButton BotonPrincipiante = new JButton("Principiante");
@@ -185,40 +220,7 @@ public class Login extends JFrame {
 		BotonPrincipiante.setBounds(7, 230, 169, 38);
 		contentPane.add(BotonPrincipiante);
 		
-		JButton BotonExperto = new JButton("Experto");
-		BotonExperto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//Guardar nombre.
-				player1.setNombre(JTextNombre.getText());
-				vJuego.setJugador(player1);
-				//Guardar apellidos.
-				player1.setApellidos(JTextApellidos.getText());
-				//Guardar edad.
-				if (player1.isNumeric(JTextEdad.getText())==true)//Si el método creado en la clase jugador nos devuelve un true...
-					player1.setEdad(Integer.parseInt(JTextEdad.getText()));//...introducimos la edad como int al player1 
-					else//De la otra forma...
-						player1.setEdad(999);//...la edad se rellena como 999 y eso nos valdrá para aclarar futuras comprobaciones.
-				
-				//Dependiendo de los campos de texto vamos a mostrar un mensaje de confirmación o error por el JTextCampo.
-				if (player1.getEdad()==999){
-					JTextCampo.setText("Edad erronea. Vuelva a rellenarla y pulse Empieza el juego");
-				}else if (player1.enBlanco(player1.getNombre())){
-					JTextCampo.setText("Falta rellenar el nombre. Rellenelo y pulse Empieza el juego");
-				}else if (player1.enBlanco(player1.getApellidos())){
-					JTextCampo.setText("Falta rellenar los apellidos. Rellenelos y pulse Empieza el juego");
-				}else{	
-					JTextCampo.setText("Creado nuevo jugador: "+player1.getNombre()+" "+player1.getApellidos()+" de "+player1.getEdad()+" años.");
-					vExperto.setVisible(true);
-					//vExperto.setVisible(true);
-					referencia.dispose();
-				}
-			}
-			
-		});
-		BotonExperto.setFont(new Font("Modern No. 20", Font.PLAIN, 15));
-		BotonExperto.setBounds(255, 228, 169, 45);
-		contentPane.add(BotonExperto);
-		
+	
 		
 		
 	}

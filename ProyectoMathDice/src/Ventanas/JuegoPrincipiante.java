@@ -36,7 +36,7 @@ public class JuegoPrincipiante extends JFrame {
 	
 	//ContentPane
 	private JPanel contentPane;
-	//Player1 de la clase jugador
+	//Player1 de la clase jugador (Le hemos dado el paso a través de la ventana Login con vJuego.setJugador(player1))
 	private Jugador player1;
 	//Etiqueta bienvenida creada en el proyecto 05
 	private JLabel LabelBienvenida;
@@ -56,7 +56,9 @@ public class JuegoPrincipiante extends JFrame {
 	private JButton ButtonMathdice;
 	//Botón para resetear el juego
 	private JButton btnReset;
-
+	//Label interrogante
+	private JLabel LabelInterrogante;
+	//Ventana de instrucciones que abriremos con un listener en LabelInterrogante
 	private Instrucciones vIns;
 
 	//Diferentes imágenes
@@ -67,7 +69,8 @@ public class JuegoPrincipiante extends JFrame {
     private ImageIcon dado6_2 = null;
     private ImageIcon dado12 = null;
     private ImageIcon dado_gris=new ImageIcon (getClass().getResource("/Imagenes/dadogris.png"));
-    //Arrays de los distintos dados para posteriorment sacar el valor 
+    
+    //Arrays de los distintos dados para posteriormente sacar el valor 
     private int [] valor_3caras=new int [3];
     private int [] valor_6caras=new int [2];
     
@@ -82,18 +85,14 @@ public class JuegoPrincipiante extends JFrame {
 	private boolean mouseListenerIsActive4=true;
 	private boolean mouseListenerIsActive5=true;
 	
-	//Variable onteger para hacer de semáforo entre el dado y el símbolo
+	//Variable integer para hacer de semáforo entre el dado y el símbolo
 	private int tocaDado=0;
 	
 	//Variable String para acumular la operación que vamos haciendo
 	private String operacion="";
 	
-	//Variable int para controlar el número de símbolos que introducimos (no pueden haber más de 4)
+	//Variable int para controlar el número de símbolos que introducimos (no puede haber más de 4)
 	private int nSimbolos=0;
-	
-	private int resultado;
-	private JLabel LabelInterrogante;
-    
 	
 
     //Constructor ventana
@@ -259,7 +258,7 @@ public class JuegoPrincipiante extends JFrame {
 				}
 		);
 		
-		//JTextField dónde recogeremos tanto los número como los símbolos de las operaciones
+		//JTextField dónde recogeremos tanto los números como los símbolos de las operaciones
 		JTextOperacion = new JTextField();
 		JTextOperacion.setFont(new Font("Modern No. 20", Font.PLAIN, 30));
 		JTextOperacion.setBackground(new Color(255, 255, 153));
@@ -275,7 +274,7 @@ public class JuegoPrincipiante extends JFrame {
 		ButtonMathdice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 					//Método para transformar String de una operación en un valor int
-					    ScriptEngineManager mgr = new ScriptEngineManager();
+					    ScriptEngineManager mgr = new ScriptEngineManager();//http://www.forosdelweb.com/f45/interpretar-string-como-si-fuera-formula-807122/
 					    ScriptEngine engine = mgr.getEngineByName("JavaScript");
 					    try {
 							int i = ((Integer) (engine.eval(operacion))).intValue();//El objeto generado por las clases importadas lo pasamos a un int
@@ -306,8 +305,8 @@ public class JuegoPrincipiante extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				//Reseteamos todos los valores que intervienen en la ventana como al inicio
 				valor12 = (int) (Math.round(Math.random() *(1-12)+12));//Vuelve a generar un valor para el dado12
-				IniciarArrays();//Se generan valores para los dados de tres y seis caras
-				SacarImagen();//Se sacan las respectivas imágenes en las etiquetas
+				AsignarValor();//Se generan valores para los dados de tres y seis caras
+				AsignarImagen();//Se sacan las respectivas imágenes en las etiquetas
 				nSimbolos=0;//Se resetean semáforos
 				tocaDado=0;
 				operacion="";//Se resetea la operación
@@ -342,6 +341,7 @@ public class JuegoPrincipiante extends JFrame {
 		LabelInterrogante.setBounds(0, 0, 58, 57);
 		contentPane.add(LabelInterrogante);
 		LabelInterrogante.setIcon(new ImageIcon(JuegoPrincipiante.class.getResource("/Imagenes/interrogante.png")));
+		//Listener para acceder a la ventana de instrucciones (vIns)
 		LabelInterrogante.addMouseListener(
 				new MouseAdapter(){
 					@Override
@@ -351,15 +351,14 @@ public class JuegoPrincipiante extends JFrame {
 				}
 		);
 		//Ejecución del método InicarArrays
-		IniciarArrays();
+		AsignarValor();
 		
 		//Ejecución del método SacarImagen
-		SacarImagen();
+		AsignarImagen();
 	
 		trucarImpar();
+
 	}
-
-
 
 	//Setter de puntos y nombres del objeto player1 de la clase Jugador
 	public void setJugador (Jugador player1) {
@@ -369,7 +368,7 @@ public class JuegoPrincipiante extends JFrame {
 	}
 	
 	//Metodo a través de arrays sacar valor diferentes dados
-	public void IniciarArrays(){
+	public void AsignarValor(){
 		
 		for(int i=0;i<valor_3caras.length;i++){
 			valor_3caras[i]= (int) (Math.round(Math.random() *(1-3)+3));
@@ -379,6 +378,7 @@ public class JuegoPrincipiante extends JFrame {
 		}
 	}
 	
+	//Método para en el caso de que valor12 sea impar y los 4 primeros dados pares, el quinto sea impar
 	public void trucarImpar(){
 		if (valor12%2 != 0 && valor_3caras[0]%2==0 && valor_3caras[1]%2==0 && valor_3caras[2]%2==0 && 
 				valor_6caras[0]%2==0 ){
@@ -394,8 +394,8 @@ public class JuegoPrincipiante extends JFrame {
 		}
 	}
 	
-	//Inicio dedl método para asignar una imagen a cada valor
-	public void SacarImagen(){
+	//Inicio del método para asignar una imagen a cada valor
+	public void AsignarImagen(){
 		
 		//Primer dado de tres caras
         if (valor_3caras[0] == 1) {
