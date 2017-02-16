@@ -48,6 +48,8 @@ public class JuegoExperto extends JFrame {
 	private JLabel LabelPuntuacion;
 	//Etiqueta donde saldrá la confirmación de que la operación está bien hecha
 	private JLabel LabelResultado; 
+	//Etiqueta para sacar el número de aciertos seguidos.
+	private JLabel LabelAciertosSeguidos;
 	//JText dónde haremos las operaciones del juego
 	private JTextField JTextOperacion;
 	//Botónes operaciones
@@ -83,13 +85,6 @@ public class JuegoExperto extends JFrame {
     private int valor12_2 = (int) (Math.round(Math.random() *(1-12)+12));
     //(Math.random() *(mínimo-máximo)+máximo)
     
-    //Variables booleanas para activar/desactivar listeners posteriormente
-	private boolean mouseListenerIsActive=true;
-	private boolean mouseListenerIsActive2=true;
-	private boolean mouseListenerIsActive3=true;
-	private boolean mouseListenerIsActive4=true;
-	private boolean mouseListenerIsActive5=true;
-	private boolean mouseListenerIsActive6=true;
 	
 	//Variable objetivo que la incializamos a cero para posteriormente pedirle que sea el resultado del producto de los valores de los dados de doce caras
 	private int objetivo=0;
@@ -151,108 +146,37 @@ public class JuegoExperto extends JFrame {
 		LabelDado_3_1 = new JLabel("New label");
 		LabelDado_3_1.setBounds(10, 359, 150, 150);
 		contentPane.add(LabelDado_3_1);
-		LabelDado_3_1.addMouseListener(
-				new MouseAdapter(){
-					@Override
-				public void mousePressed(MouseEvent arg0){
-						if (mouseListenerIsActive && tocaDado==0){
-						JTextOperacion.setText(operacion=operacion+String.valueOf(valor_3caras[0]));
-						LabelDado_3_1.setIcon(dado_gris);
-						tocaDado=1;
-						mouseListenerIsActive = false;
-						}
-	            }
-	        });
+		LabelDado_3_1.addMouseListener(new miBotonDado());
 		
 		//Etiqueta segundo dado 3 caras
 		LabelDado_3_2 = new JLabel("New label");
 		LabelDado_3_2.setBounds(170, 359, 150, 150);
 		contentPane.add(LabelDado_3_2);
-		LabelDado_3_2.addMouseListener(
-				new MouseAdapter(){
-					@Override
-				public void mousePressed(MouseEvent arg0){
-						if (mouseListenerIsActive2 && tocaDado==0){
-						JTextOperacion.setText(operacion=operacion+String.valueOf(valor_3caras[1]));
-						LabelDado_3_2.setIcon(dado_gris);
-					    tocaDado=1;
-					    mouseListenerIsActive2 = false;
-						}
-					}
-			}
-		);
+		LabelDado_3_2.addMouseListener(new miBotonDado());
 		
 		//Etiqueta tercer dado 3 caras
 		LabelDado_3_3 = new JLabel("New label");
 		LabelDado_3_3.setBounds(330, 359, 150, 150);
 		contentPane.add(LabelDado_3_3);
-		LabelDado_3_3.addMouseListener(
-				new MouseAdapter(){
-					@Override
-				public void mousePressed(MouseEvent arg0){
-						if (mouseListenerIsActive3 && tocaDado==0){
-						JTextOperacion.setText(operacion=operacion+String.valueOf(valor_3caras[2]));
-						LabelDado_3_3.setIcon(dado_gris);
-						 tocaDado=1;
-						 mouseListenerIsActive3 = false;
-						}
-					}
-				}
-		);
+		LabelDado_3_3.addMouseListener(new miBotonDado());
 		
 		//Etiqueta primer dado 6 caras
 		LabelDado_6_1 = new JLabel("New label");
 		LabelDado_6_1.setBounds(10, 520, 150, 150);
 		contentPane.add(LabelDado_6_1);
-		LabelDado_6_1.addMouseListener(
-				new MouseAdapter(){
-					@Override
-				public void mousePressed(MouseEvent arg0){
-						if (mouseListenerIsActive4 && tocaDado==0){
-						JTextOperacion.setText(operacion=operacion+String.valueOf(valor_6caras[0]));
-						LabelDado_6_1.setIcon(dado_gris);
-						 tocaDado=1;
-						 mouseListenerIsActive4 = false;
-					}
-					}
-				}
-		);
+		LabelDado_6_1.addMouseListener(new miBotonDado());
 		
 		//Etiqueta segundo dado 6 caras
 		LabelDado_6_2 = new JLabel("New label");
 		LabelDado_6_2.setBounds(170, 520, 150, 150);
 		contentPane.add(LabelDado_6_2);
-		LabelDado_6_2.addMouseListener(
-				new MouseAdapter(){
-					@Override
-				public void mousePressed(MouseEvent arg0){
-						if (mouseListenerIsActive5 && tocaDado==0){
-						JTextOperacion.setText(operacion=operacion+String.valueOf(valor_6caras[1]));
-						LabelDado_6_2.setIcon(dado_gris);
-						tocaDado=1;
-						mouseListenerIsActive5 = false;
-						}
-					}
-				}
-		);
+		LabelDado_6_2.addMouseListener(new miBotonDado());
 		
 		//Etiqueta tercer dado 6 caras
 		LabelDado_6_3 = new JLabel("New label");
 		LabelDado_6_3.setBounds(330, 520, 150, 150);
 		contentPane.add(LabelDado_6_3);
-		LabelDado_6_3.addMouseListener(
-				new MouseAdapter(){
-					@Override
-				public void mousePressed(MouseEvent arg0){
-						if (mouseListenerIsActive6 && tocaDado==0){
-						JTextOperacion.setText(operacion=operacion+String.valueOf(valor_6caras[2]));
-						LabelDado_6_3.setIcon(dado_gris);
-						tocaDado=1;
-						mouseListenerIsActive6 = false;
-						}
-					}
-				}
-		);
+		LabelDado_6_3.addMouseListener(new miBotonDado());
 		
 		//Botón para sumar en la operación
 		botonSuma = new JButton("+");
@@ -349,7 +273,7 @@ public class JuegoExperto extends JFrame {
 		LabelPuntuacion = new JLabel("");
 		LabelPuntuacion.setHorizontalAlignment(SwingConstants.CENTER);
 		LabelPuntuacion.setFont(new Font("Modern No. 20", Font.PLAIN, 20));
-		LabelPuntuacion.setBounds(535, 530, 410, 40);
+		LabelPuntuacion.setBounds(535, 520, 410, 40);
 		contentPane.add(LabelPuntuacion);
 		
 		//JTextField dónde recogeremos tanto los números como los símbolos de las operaciones
@@ -379,21 +303,30 @@ public class JuegoExperto extends JFrame {
 									LabelPuntuacion.setText("Puntuación total: "+player1.getPuntos()+" puntos.");//Sacamos por la etiqueta los puntos que lleva acumulados player1
 									ButtonMathdice.setEnabled(false);//Deshabilitamos botón mathdice
 									btnReset.setEnabled(true);//Habilitamos botón reset
+									player1.setSeguidos(player1.getSeguidos()+1);
+									if(player1.getSeguidos()>1)
+									LabelAciertosSeguidos.setText("Enhorabuena, llevas "+player1.getSeguidos()+" aciertos seguidos.");
 								}else if  (i>objetivo && i<objetivo+(objetivo*0.10) || i<objetivo && i>objetivo-(objetivo*0.10)){
 									LabelResultado.setText("Casiiiiiiiiii");//Texto de confirmación
 									player1.setPuntos(player1.getPuntos()+3);//Añadimos 5 puntos a los puntos de player1
 									LabelPuntuacion.setText("Puntuación total: "+player1.getPuntos()+" puntos.");//Sacamos por la etiqueta los puntos que lleva acumulados player1
 									ButtonMathdice.setEnabled(false);//Deshabilitamos botón mathdice
 									btnReset.setEnabled(true);//Habilitamos botón reset
+									player1.setSeguidos(0);
+									LabelAciertosSeguidos.setText("");
 								}else{
 									LabelResultado.setText("Sigue buscando");
 									btnReset.setEnabled(true);//Habilitamos botón reset
 									ButtonMathdice.setEnabled(false);//Deshabilitamos botón mathdice
+									player1.setSeguidos(0);
+									LabelAciertosSeguidos.setText("");
 								}
 							} catch (ScriptException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
-								
+								LabelResultado.setText("Error al introducir datos");
+								btnReset.setEnabled(true);//Habilitamos botón reset
+								ButtonMathdice.setEnabled(false);//Deshabilitamos botón mathdice
 							}
 					}
 					});
@@ -416,12 +349,12 @@ public class JuegoExperto extends JFrame {
 				tocaDado=0;
 				operacion="";//Se resetea la operación
 				JTextOperacion.setText(operacion);
-				mouseListenerIsActive=true;//Se vuelven a activar todos los mouseListeners
-				mouseListenerIsActive2=true;
-				mouseListenerIsActive3=true;
-				mouseListenerIsActive4=true;
-				mouseListenerIsActive5=true;
-				mouseListenerIsActive6=true;
+				LabelDado_3_1.setEnabled(true);
+				LabelDado_3_2.setEnabled(true);
+				LabelDado_3_3.setEnabled(true);
+				LabelDado_6_1.setEnabled(true);
+				LabelDado_6_2.setEnabled(true);
+				LabelDado_6_3.setEnabled(true);
 				btnReset.setEnabled(false);//Se dejan los botones como al principio
 				ButtonMathdice.setEnabled(true);
 
@@ -438,6 +371,12 @@ public class JuegoExperto extends JFrame {
 		LabelResultado.setFont(new Font("Modern No. 20", Font.PLAIN, 22));
 		LabelResultado.setBounds(593, 479, 301, 40);
 		contentPane.add(LabelResultado);
+		
+		LabelAciertosSeguidos = new JLabel("");
+		LabelAciertosSeguidos.setHorizontalAlignment(SwingConstants.CENTER);
+		LabelAciertosSeguidos.setFont(new Font("Modern No. 20", Font.PLAIN, 20));
+		LabelAciertosSeguidos.setBounds(535, 579, 410, 40);
+		contentPane.add(LabelAciertosSeguidos);
 		
 		//Instancia de la clase Instrucciones para crear ventana de instrucciones
 		vInsE=new InstruccionesExperto ();
@@ -468,6 +407,32 @@ public class JuegoExperto extends JFrame {
 		
 	}
 
+	//IMPLEMENTACIÓN DE INNER CLASS PARA OPTIMIZAR CÓDIGO
+		private class miBotonDado implements MouseListener {
+
+			//Formato que tiene que aparecer en una inner class de un mouseListener
+			@Override
+			public void mouseClicked(MouseEvent arg0) {}
+			@Override
+			public void mouseEntered(MouseEvent arg0) {}
+			@Override
+			public void mouseExited(MouseEvent arg0) {}
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}
+			
+			//MouseListener que vamos a utilizar
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				if (tocaDado==0){
+					JLabel b=(JLabel)arg0.getSource();
+					JTextOperacion.setText(operacion=operacion+(b.getName()));
+					b.setIcon(dado_gris);
+					tocaDado=1;
+					b.setEnabled(false);
+					b.removeMouseListener(this);
+				}
+			}	
+		}
 	//Setter de puntos y nombres del objeto player1 de la clase Jugador
 	public void setJugador (Jugador player1) {
 			this.player1=player1;
@@ -491,6 +456,15 @@ public class JuegoExperto extends JFrame {
 		for(int i=0;i<valor_6caras.length;i++){
 			valor_6caras[i]= (int) (Math.round(Math.random() *(1-6)+6));
 		}
+		/*+ A TRAVÉS DE UN setName LE DOY EL VALOR A CADA IMAGEN QUE HEMOS SACADO CON EL RANDOM
+		 * 
+		 */
+		LabelDado_3_1.setName(String.valueOf(valor_3caras[0]));
+		LabelDado_3_2.setName(String.valueOf(valor_3caras[1]));
+		LabelDado_3_3.setName(String.valueOf(valor_3caras[2]));
+		LabelDado_6_1.setName(String.valueOf(valor_6caras[0]));
+		LabelDado_6_2.setName(String.valueOf(valor_6caras[1]));
+		LabelDado_6_3.setName(String.valueOf(valor_6caras[2]));
 	}
 
 	//Inicio del método para asignar una imagen a cada valor

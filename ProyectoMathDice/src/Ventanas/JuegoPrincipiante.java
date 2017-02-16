@@ -48,6 +48,8 @@ public class JuegoPrincipiante extends JFrame {
 	private JLabel LabelPuntuacion;
 	//Etiqueta donde saldrá la confirmación de que la operación está bien hecha
 	private JLabel LabelResultado; 
+	//Etiqueta para sacar el número de aciertos seguidos.
+	private JLabel LabelAciertosSeguidos;
 	//JText dónde haremos las operaciones del juego
 	private JTextField JTextOperacion;
 	//Etiquetas suma y resta
@@ -78,13 +80,6 @@ public class JuegoPrincipiante extends JFrame {
     private int valor12 = (int) (Math.round(Math.random() *(1-12)+12));
     //(Math.random() *(mínimo-máximo)+máximo)
     
-    //Variables booleanas para activar/desactivar listeners posteriormente
-	private boolean mouseListenerIsActive=true;
-	private boolean mouseListenerIsActive2=true;
-	private boolean mouseListenerIsActive3=true;
-	private boolean mouseListenerIsActive4=true;
-	private boolean mouseListenerIsActive5=true;
-	
 	//Variable integer para hacer de semáforo entre el dado y el símbolo
 	private int tocaDado=0;
 	
@@ -94,7 +89,19 @@ public class JuegoPrincipiante extends JFrame {
 	//Variable int para controlar el número de símbolos que introducimos (no puede haber más de 4)
 	private int nSimbolos=0;
 	
-
+	
+	/*
+	 * +ESTAS DOS VARIABLES (resultado y esSuma) SON UNA ALTERNATIVA QUE SE ME HA OCURRIDO POSTERIORMENTE
+	 * A HACERME CON EL SCRIPT PARA TRANSFORMAR EL STRING operacion A UN INTEGER Y COMPARARLO CON EL
+	 * NÚMERO valor12 A LA HORA DE VER SI HEMOS ACERTADO.
+	 * +DE ESTA FORMA MUCHO MÁS SENCILLA SE VAN ACUMULANDO LOS DADOS QUE VAMOS MARCANDO EN UNA VARIABLE
+	 * TIPO int Y EN BASE A LO QUE SE HA MARCADO ANTERIORMENTE SE REALIZA CON UN CONDICIONAL if UNA SUMA
+	 * O UNA RESTA. 
+	 * +PARA NO SATURAR LA APLICACIÓN EN VEZ DE COMPARAR resultado CON valor12 LE HE DICHO QUE SAQUE
+	 * POR CONSOLA EL resultado Y ASÍ CERCIORARNOS DE LO INTRODUCIDO
+	 */
+	private int resultado=0;
+	private boolean esSuma=true;
     //Constructor ventana
 	public JuegoPrincipiante() {
 		
@@ -103,7 +110,6 @@ public class JuegoPrincipiante extends JFrame {
 		setTitle("MATH DICE");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 620);
-	
 		
 	
 		//JPanel
@@ -128,103 +134,50 @@ public class JuegoPrincipiante extends JFrame {
 		LabelDado_3_1 = new JLabel("New label");
 		LabelDado_3_1.setBounds(10, 259, 150, 150);
 		contentPane.add(LabelDado_3_1);
-		LabelDado_3_1.addMouseListener(
-				new MouseAdapter(){
-					@Override
-				public void mousePressed(MouseEvent arg0){
-						if (mouseListenerIsActive && tocaDado==0){
-						JTextOperacion.setText(operacion=operacion+String.valueOf(valor_3caras[0]));
-						LabelDado_3_1.setIcon(dado_gris);
-						tocaDado=1;
-						mouseListenerIsActive = false;
-						}
-	            }
-	        });
+
+		LabelDado_3_1.addMouseListener(new miBotonDado());
 		
 		//Etiqueta segundo dado 3 caras
 		LabelDado_3_2 = new JLabel("New label");
 		LabelDado_3_2.setBounds(170, 259, 150, 150);
 		contentPane.add(LabelDado_3_2);
-		LabelDado_3_2.addMouseListener(
-				new MouseAdapter(){
-					@Override
-				public void mousePressed(MouseEvent arg0){
-						if (mouseListenerIsActive2 && tocaDado==0){
-						JTextOperacion.setText(operacion=operacion+String.valueOf(valor_3caras[1]));
-						LabelDado_3_2.setIcon(dado_gris);
-					    tocaDado=1;
-					    mouseListenerIsActive2 = false;
-						}
-					}
-			}
-		);
+
+		LabelDado_3_2.addMouseListener(new miBotonDado());
 		
 		//Etiqueta tercer dado 3 caras
 		LabelDado_3_3 = new JLabel("New label");
 		LabelDado_3_3.setBounds(330, 259, 150, 150);
 		contentPane.add(LabelDado_3_3);
-		LabelDado_3_3.addMouseListener(
-				new MouseAdapter(){
-					@Override
-				public void mousePressed(MouseEvent arg0){
-						if (mouseListenerIsActive3 && tocaDado==0){
-						JTextOperacion.setText(operacion=operacion+String.valueOf(valor_3caras[2]));
-						LabelDado_3_3.setIcon(dado_gris);
-						 tocaDado=1;
-						 mouseListenerIsActive3 = false;
-						}
-					}
-				}
-		);
+
+		LabelDado_3_3.addMouseListener(new miBotonDado());
 		
 		//Etiqueta primer dado 6 caras
 		LabelDado_6_1 = new JLabel("New label");
 		LabelDado_6_1.setBounds(90, 420, 150, 150);
 		contentPane.add(LabelDado_6_1);
-		LabelDado_6_1.addMouseListener(
-				new MouseAdapter(){
-					@Override
-				public void mousePressed(MouseEvent arg0){
-						if (mouseListenerIsActive4 && tocaDado==0){
-						JTextOperacion.setText(operacion=operacion+String.valueOf(valor_6caras[0]));
-						LabelDado_6_1.setIcon(dado_gris);
-						 tocaDado=1;
-						 mouseListenerIsActive4 = false;
-					}
-					}
-				}
-		);
+		  
+		LabelDado_6_1.addMouseListener(new miBotonDado());
+		
 		
 		//Etiqueta segundo dado 6 caras
 		LabelDado_6_2 = new JLabel("New label");
 		LabelDado_6_2.setBounds(251, 420, 150, 150);
 		contentPane.add(LabelDado_6_2);
-		LabelDado_6_2.addMouseListener(
-				new MouseAdapter(){
-					@Override
-				public void mousePressed(MouseEvent arg0){
-						if (mouseListenerIsActive5 && tocaDado==0){
-						JTextOperacion.setText(operacion=operacion+String.valueOf(valor_6caras[1]));
-						LabelDado_6_2.setIcon(dado_gris);
-						tocaDado=1;
-						mouseListenerIsActive5 = false;
-						}
-					}
-				}
-		);
+
+		LabelDado_6_2.addMouseListener(new miBotonDado());
 		
 		
 		//Etiqueta puntuación total
 		LabelPuntuacion = new JLabel("");
 		LabelPuntuacion.setHorizontalAlignment(SwingConstants.CENTER);
 		LabelPuntuacion.setFont(new Font("Modern No. 20", Font.PLAIN, 20));
-		LabelPuntuacion.setBounds(535, 530, 410, 40);
+		LabelPuntuacion.setBounds(535, 471, 410, 40);
 		contentPane.add(LabelPuntuacion);
 		
 		//Etiqueta símbolo suma
 		LabelSuma = new JLabel("New label");
 		LabelSuma.setIcon(new ImageIcon(JuegoPrincipiante.class.getResource("/Imagenes/suma.png")));
-		LabelSuma.setBounds(535, 75, 150, 150);
+		LabelSuma.setBounds(535, 54, 150, 150);
 		contentPane.add(LabelSuma);
 		LabelSuma.addMouseListener(
 				new MouseAdapter(){
@@ -234,6 +187,7 @@ public class JuegoPrincipiante extends JFrame {
 						JTextOperacion.setText(operacion=operacion+String.valueOf(" + "));
 						tocaDado=0;
 						nSimbolos++;//Suma uno a la variable nSimbolos para contabilizarlos y que no se llegue a más de 4
+						esSuma=true;
 						}
 					}
 				}
@@ -243,7 +197,7 @@ public class JuegoPrincipiante extends JFrame {
 		//Etiqueta símbolo resta
 		LabelResta = new JLabel("New label");
 		LabelResta.setIcon(new ImageIcon(JuegoPrincipiante.class.getResource("/Imagenes/resta.png")));
-		LabelResta.setBounds(795, 75, 150, 150);
+		LabelResta.setBounds(795, 54, 150, 150);
 		contentPane.add(LabelResta);
 		LabelResta.addMouseListener(
 				new MouseAdapter(){
@@ -253,6 +207,7 @@ public class JuegoPrincipiante extends JFrame {
 						JTextOperacion.setText(operacion=operacion+String.valueOf(" - "));
 						tocaDado=0;
 						nSimbolos++;//Suma uno a la variable nSimbolos para contabilizarlos y que no se llegue a más de 4
+						esSuma=false;
 						}
 					}
 				}
@@ -264,7 +219,7 @@ public class JuegoPrincipiante extends JFrame {
 		JTextOperacion.setBackground(new Color(255, 255, 153));
 		JTextOperacion.setForeground(Color.BLACK);
 		JTextOperacion.setEditable(false);
-		JTextOperacion.setBounds(534, 248, 411, 57);
+		JTextOperacion.setBounds(534, 215, 411, 57);
 		contentPane.add(JTextOperacion);
 		JTextOperacion.setColumns(10);
 		JTextOperacion.setText(operacion);
@@ -273,30 +228,27 @@ public class JuegoPrincipiante extends JFrame {
 		ButtonMathdice = new JButton("MATHDICE");
 		ButtonMathdice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-					//Método para transformar String de una operación en un valor int
-					    ScriptEngineManager mgr = new ScriptEngineManager();//http://www.forosdelweb.com/f45/interpretar-string-como-si-fuera-formula-807122/
-					    ScriptEngine engine = mgr.getEngineByName("JavaScript");
-					    try {
-							int i = ((Integer) (engine.eval(operacion))).intValue();//El objeto generado por las clases importadas lo pasamos a un int
-							if (i==valor12){
-								LabelResultado.setText("Eres una máquina");//Texto de confirmación
-								player1.setPuntos(player1.getPuntos()+5);//Añadimos 5 puntos a los puntos de player1
-								LabelPuntuacion.setText("Puntuación total: "+player1.getPuntos()+" puntos.");//Sacamos por la etiqueta los puntos que lleva acumulados player1
-								ButtonMathdice.setEnabled(false);//Deshabilitamos botón mathdice
-								btnReset.setEnabled(true);//Habilitamos botón reset
-							}else{
-								LabelResultado.setText("Sigue buscando");
-								btnReset.setEnabled(true);//Habilitamos botón reset
-								ButtonMathdice.setEnabled(false);//Deshabilitamos botón mathdice
-							}
-						} catch (ScriptException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+				if (resultado==valor12){
+					LabelResultado.setText("Eres una máquina");//Texto de confirmación
+					player1.setPuntos(player1.getPuntos()+2);//Añadimos 5 puntos a los puntos de player1
+					LabelPuntuacion.setText("Puntuación total: "+player1.getPuntos()+" puntos.");//Sacamos por la etiqueta los puntos que lleva acumulados player1
+					player1.setSeguidos(player1.getSeguidos()+1);
+					if(player1.getSeguidos()>1)
+					LabelAciertosSeguidos.setText("Enhorabuena, llevas "+player1.getSeguidos()+" aciertos seguidos.");
+					ButtonMathdice.setEnabled(false);//Deshabilitamos botón mathdice
+					btnReset.setEnabled(true);//Habilitamos botón reset
+				}else{
+					LabelResultado.setText("Sigue buscando");
+					player1.setSeguidos(0);
+					LabelAciertosSeguidos.setText("");
+					btnReset.setEnabled(true);//Habilitamos botón reset
+					ButtonMathdice.setEnabled(false);//Deshabilitamos botón mathdice
+					System.out.println(resultado);
 					}
-					});
+				}
+			});
 		ButtonMathdice.setFont(new Font("Modern No. 20", Font.PLAIN, 20));
-		ButtonMathdice.setBounds(535, 329, 411, 57);
+		ButtonMathdice.setBounds(535, 283, 411, 57);
 		contentPane.add(ButtonMathdice);
 		
 		//Botón para volver a jugar
@@ -311,26 +263,26 @@ public class JuegoPrincipiante extends JFrame {
 				tocaDado=0;
 				operacion="";//Se resetea la operación
 				JTextOperacion.setText(operacion);
-				mouseListenerIsActive=true;//Se vuelven a activar todos los mouseListeners
-				mouseListenerIsActive2=true;
-				mouseListenerIsActive3=true;
-				mouseListenerIsActive4=true;
-				mouseListenerIsActive5=true;
 				btnReset.setEnabled(false);//Se dejan los botones como al principio
 				ButtonMathdice.setEnabled(true);
-
+				LabelDado_3_1.setEnabled(true);
+				LabelDado_3_2.setEnabled(true);
+				LabelDado_3_3.setEnabled(true);
+				LabelDado_6_1.setEnabled(true);
+				LabelDado_6_2.setEnabled(true);
+				resultado=0;
 			}
 		});
 		btnReset.setEnabled(false);
 		btnReset.setFont(new Font("Modern No. 20", Font.PLAIN, 20));
-		btnReset.setBounds(535, 407, 411, 57);
+		btnReset.setBounds(535, 351, 411, 57);
 		contentPane.add(btnReset);
 		
 		//Etiqueta para sacar resultado obtenido
 		LabelResultado = new JLabel("");
 		LabelResultado.setHorizontalAlignment(SwingConstants.CENTER);
 		LabelResultado.setFont(new Font("Modern No. 20", Font.PLAIN, 22));
-		LabelResultado.setBounds(593, 479, 301, 40);
+		LabelResultado.setBounds(596, 420, 301, 40);
 		contentPane.add(LabelResultado);
 		
 		//Instancia de la clase Instrucciones para crear ventana de instrucciones
@@ -341,6 +293,15 @@ public class JuegoPrincipiante extends JFrame {
 		LabelInterrogante.setBounds(0, 0, 58, 57);
 		contentPane.add(LabelInterrogante);
 		LabelInterrogante.setIcon(new ImageIcon(JuegoPrincipiante.class.getResource("/Imagenes/interrogante.png")));
+		
+		
+		//ETIQUETA DONDE SALDRÁ SI SE DA EL CASO EL NÚMERO DE ACIERTOS SEGUIDOS QUE LLEVAMOS
+		LabelAciertosSeguidos = new JLabel("");
+		LabelAciertosSeguidos.setHorizontalAlignment(SwingConstants.CENTER);
+		LabelAciertosSeguidos.setFont(new Font("Modern No. 20", Font.PLAIN, 20));
+		LabelAciertosSeguidos.setBounds(535, 530, 410, 40);
+		contentPane.add(LabelAciertosSeguidos);
+		
 		//Listener para acceder a la ventana de instrucciones (vIns)
 		LabelInterrogante.addMouseListener(
 				new MouseAdapter(){
@@ -359,6 +320,43 @@ public class JuegoPrincipiante extends JFrame {
 		trucarImpar();
 
 	}
+	//IMPLEMENTACIÓN DE INNER CLASS PARA OPTIMIZAR CÓDIGO
+	private class miBotonDado implements MouseListener {
+
+		//Formato que tiene que aparecer en una inner class de un mouseListener
+		@Override
+		public void mouseClicked(MouseEvent arg0) {}
+		@Override
+		public void mouseEntered(MouseEvent arg0) {}
+		@Override
+		public void mouseExited(MouseEvent arg0) {}
+		@Override
+		public void mouseReleased(MouseEvent arg0) {}
+		
+		//MousseListener que vamos a utilizar
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+
+			if (tocaDado==0 && esSuma){
+				JLabel b=(JLabel)arg0.getSource();
+				JTextOperacion.setText(operacion=operacion+(b.getName()));
+				resultado=resultado+Integer.parseInt(b.getName());
+				b.setIcon(dado_gris);
+				tocaDado=1;
+				b.setEnabled(false);
+				b.removeMouseListener(this);
+				
+				}else if (tocaDado==0 && esSuma==false){
+				JLabel b=(JLabel)arg0.getSource();
+				JTextOperacion.setText(operacion=operacion+(b.getName()));
+				resultado=resultado-Integer.parseInt(b.getName());
+				b.setIcon(dado_gris);
+				tocaDado=1;
+				b.setEnabled(false);
+				b.removeMouseListener(this);
+				}
+		}	
+	}
 
 	//Setter de puntos y nombres del objeto player1 de la clase Jugador
 	public void setJugador (Jugador player1) {
@@ -376,6 +374,14 @@ public class JuegoPrincipiante extends JFrame {
 		for(int i=0;i<valor_6caras.length;i++){
 			valor_6caras[i]= (int) (Math.round(Math.random() *(1-6)+6));
 		}
+		/*+ A TRAVÉS DE UN setName LE DOY EL VALOR A CADA IMAGEN QUE HEMOS SACADO CON EL RANDOM
+		 * 
+		 */
+		LabelDado_3_1.setName(String.valueOf(valor_3caras[0]));
+		LabelDado_3_2.setName(String.valueOf(valor_3caras[1]));
+		LabelDado_3_3.setName(String.valueOf(valor_3caras[2]));
+		LabelDado_6_1.setName(String.valueOf(valor_6caras[0]));
+		LabelDado_6_2.setName(String.valueOf(valor_6caras[1]));
 	}
 	
 	//Método para en el caso de que valor12 sea impar y los 4 primeros dados pares, el quinto sea impar

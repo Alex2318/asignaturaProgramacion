@@ -8,6 +8,8 @@ public class Jugador {
 	private int puntos;
 	private int edad;
 	private int id;
+	//Variable que acumula el número de aciertos seguidos.
+	private int aciertosSeguidos;
 	
 	//Getters y setters de los atributos de la clase
 	
@@ -35,6 +37,13 @@ public class Jugador {
 		this.puntos = puntos;
 	}
 
+	public int getSeguidos() {
+		return aciertosSeguidos;
+	}
+
+	public void setSeguidos(int aciertosSeguidos) {
+		this.aciertosSeguidos = aciertosSeguidos;
+	}
 	public int getEdad() {
 		return edad;
 	}
@@ -70,13 +79,13 @@ public class Jugador {
 	//Método para comprobar que no se esté dejando un espacio en blanco.
 	public boolean enBlanco(String cad)
 	{
-	for(int x=0; x<cad.length(); x++)//Si hay más de cero caractéres...
-	if(cad.charAt(x) !=' ')//...diferentes de los que se hacen con la barra espaciadora...
+	for(int x=0; x<cad.length(); x++)//Bucle para revisar caracteres...
+	if(cad.charAt(x) !=' ')//si hay un carater por lo menos que sea diferente a un espacio en blanco...
 		return false;//...devuelve un false...
 							//...en caso contrario...
 		return true;//...devuelve un true.
 	
 	}
-	
+
 	
 }
