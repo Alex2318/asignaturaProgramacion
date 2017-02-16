@@ -237,6 +237,7 @@ public class JuegoPrincipiante extends JFrame {
 					LabelAciertosSeguidos.setText("Enhorabuena, llevas "+player1.getSeguidos()+" aciertos seguidos.");
 					ButtonMathdice.setEnabled(false);//Deshabilitamos botón mathdice
 					btnReset.setEnabled(true);//Habilitamos botón reset
+					System.out.println(resultado);
 				}else{
 					LabelResultado.setText("Sigue buscando");
 					player1.setSeguidos(0);
@@ -270,8 +271,15 @@ public class JuegoPrincipiante extends JFrame {
 				LabelDado_3_3.setEnabled(true);
 				LabelDado_6_1.setEnabled(true);
 				LabelDado_6_2.setEnabled(true);
+				LabelDado_3_1.addMouseListener(new miBotonDado());
+				LabelDado_3_2.addMouseListener(new miBotonDado());
+				LabelDado_3_3.addMouseListener(new miBotonDado());
+				LabelDado_6_1.addMouseListener(new miBotonDado());
+				LabelDado_6_2.addMouseListener(new miBotonDado());
+				esSuma=true;
 				resultado=0;
 			}
+		
 		});
 		btnReset.setEnabled(false);
 		btnReset.setFont(new Font("Modern No. 20", Font.PLAIN, 20));
@@ -345,7 +353,7 @@ public class JuegoPrincipiante extends JFrame {
 				tocaDado=1;
 				b.setEnabled(false);
 				b.removeMouseListener(this);
-				
+				System.out.println(resultado);
 				}else if (tocaDado==0 && esSuma==false){
 				JLabel b=(JLabel)arg0.getSource();
 				JTextOperacion.setText(operacion=operacion+(b.getName()));
@@ -354,6 +362,7 @@ public class JuegoPrincipiante extends JFrame {
 				tocaDado=1;
 				b.setEnabled(false);
 				b.removeMouseListener(this);
+				System.out.println(resultado);
 				}
 		}	
 	}
